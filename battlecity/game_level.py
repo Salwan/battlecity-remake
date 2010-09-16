@@ -33,12 +33,10 @@ class GameLevel(battlecity.level.Level):
         self.gameOverPopupPos = ((screen.get_width() / 2) - (GameData[GAME_OVER_POPUP].width / 2), screen.get_height())
         self.gameOverPopupTargetY = (screen.get_height() / 2) - (GameData[GAME_OVER_POPUP].height / 2)
         self.gameOverWait = 100
-        self.p1Lives = self.scene.sceneMgr.gamedb["Player1Lives"]
-        self.p2Lives = self.scene.sceneMgr.gamedb["Player2Lives"]
+        self.p1Lives = self.scene.sceneMgr.gamedb["Lives"][1]
+        self.p2Lives = self.scene.sceneMgr.gamedb["Lives"][2]
         self.playerCount = self.scene.sceneMgr.gamedb["PlayerCount"]
-        self.playersAlive = []
-        for i in range(0, self.playerCount):
-            self.playersAlive.append(i + 1)
+        self.playersAlive = self.scene.sceneMgr.gamedb["PlayersAlive"]
         
         self.isLevelWon = False
         self.levelWonWait = 180        
@@ -112,7 +110,7 @@ class GameLevel(battlecity.level.Level):
                             self.spawnNewPlayer1()
                         else:
                             # TEMP: Player 1 is no longer alive
-                            self.playersAlive.remove(1)
+                            self.endPlayer1()
                 if 2 in self.playersAlive and not self.player_2.isAlive():
                     self.player2SpawnTicks -= 1
                     if self.player2SpawnTicks <= 0:
@@ -122,7 +120,7 @@ class GameLevel(battlecity.level.Level):
                             self.spawnNewPlayer2()
                         else:
                             # TEMP: Player 2 is no longer alive
-                            self.playersAlive.remove(2)
+                            self.endPlayer2()
                 # Game Over
                 if len(self.playersAlive) <= 0:
                     self.setGameOver()
@@ -167,6 +165,14 @@ class GameLevel(battlecity.level.Level):
         if self.isGameOver:
             self.screen.blit(self.gameOverPopup, self.gameOverPopupPos)
 
+    def endPlayer1(self):
+        self.playersAlive.remove(1)
+        self.scene.sceneMgr.gamedb["PlayersAlive"] = self.playersAlive
+
+    def endPlayer2(self):
+        self.playersAlive.remove(2)
+        self.scene.sceneMgr.gamedb["PlayersAlive"] = self.playersAlive
+
     def collideEntities(self, rect):
         dummy_sprite = pygame.sprite.Sprite()
         dummy_sprite.rect = rect
@@ -203,12 +209,13 @@ class GameLevel(battlecity.level.Level):
             return False
         
     def spawnNewPlayers(self):
-        self.spawnNewPlayer1()
-        if self.playerCount == 2:
+        if 1 in self.playersAlive:
+            self.spawnNewPlayer1()
+        if 2 in self.playersAlive:
             self.spawnNewPlayer2()
 
     def spawnNewPlayer1(self):
-        self.player_1 = player_tank.PlayerTank(self.bitmap, self, self.scene.sceneMgr.gamedb["Player1Level"], 1, self.scene.playerTextures)
+        self.player_1 = player_tank.PlayerTank(self.bitmap, self, self.scene.sceneMgr.gamedb["TankLevel"][1], 1, self.scene.playerTextures)
         self.player_1.setPosition((80, 208))
         p1Controller = PlayerController()
         self.scene.attachControllerToEntity(p1Controller, self.player_1)
@@ -216,7 +223,7 @@ class GameLevel(battlecity.level.Level):
         self.entities.add(spawner)
 
     def spawnNewPlayer2(self):
-        self.player_2 = player_tank.PlayerTank(self.bitmap, self, self.scene.sceneMgr.gamedb["Player2Level"], 2, self.scene.playerTextures)
+        self.player_2 = player_tank.PlayerTank(self.bitmap, self, self.scene.sceneMgr.gamedb["TankLevel"][2], 2, self.scene.playerTextures)
         self.player_2.setPosition((144, 208))
         p2Controller = PlayerController()
         self.scene.attachControllerToEntity(p2Controller, self.player_2)
@@ -280,8 +287,12 @@ class GameLevel(battlecity.level.Level):
 
     def setGameOver(self):
         self.isGameOver = True
-        if self.player_1 and self.player_1.controller:
-            self.scene.removeController(self.player_1.controller)
+        if 1 in self.playersAlive:
+            if self.player_1 and self.player_1.controller:
+                self.scene.removeController(self.player_1.controller)
+        if 2 in self.playersAlive:
+            if self.player_2 and self.player_2.controller:
+                self.scene.removeController(self.player_2.controller)
 
     def gameOver(self):
         self.scene.gameOver()
@@ -318,11 +329,11 @@ class GameLevel(battlecity.level.Level):
         self.item = it
         self.entities.add(it)
 
-    def addFragScore(self, victim_tank_type, rect):
-        if victim_tank_type not in self.scene.sceneMgr.gamedb["FragList"]:
-            self.scene.sceneMgr.gamedb["FragList"][victim_tank_type] = 1
+    def addFragScore(self, who, victim_tank_type, rect):
+        if victim_tank_type not in self.scene.sceneMgr.gamedb["FragList"][who.playerNum]:
+            self.scene.sceneMgr.gamedb["FragList"][who.playerNum][victim_tank_type] = 1
         else:
-            self.scene.sceneMgr.gamedb["FragList"][victim_tank_type] += 1
+            self.scene.sceneMgr.gamedb["FragList"][who.playerNum][victim_tank_type] += 1
         score_image = None
         if victim_tank_type == GAME_ENEMY_1_TANK:
             score_image = self.bitmap.subsurface(GameData[GAME_SCORE_100])
@@ -332,19 +343,20 @@ class GameLevel(battlecity.level.Level):
             score_image = self.bitmap.subsurface(GameData[GAME_SCORE_300])
         elif victim_tank_type == GAME_ENEMY_4_TANK:
             score_image = self.bitmap.subsurface(GameData[GAME_SCORE_400])
-        self.scene.sceneMgr.gamedb["Score"] += ScoreForEnemy[victim_tank_type]
+
+        self.scene.sceneMgr.gamedb["Score"][who.playerNum] += ScoreForEnemy[victim_tank_type]
         score_image_ent = ImageEntityTimeKill(score_image, rect.topleft, ENTITY_TYPE_TRANSPARENT, 60)
         self.entities.add(score_image_ent)
 
-    def addItemScore(self, rect):
-        self.scene.sceneMgr.gamedb["Score"] += 500
+    def addItemScore(self, who, rect):
+        self.scene.sceneMgr.gamedb["Score"][who.playerNum] += 500
         if rect != None:
             score_image_ent = ImageEntityTimeKill(self.bitmap.subsurface(GameData[GAME_SCORE_500]), rect.topleft, ENTITY_TYPE_TRANSPARENT, 60, 10)
             self.entities.add(score_image_ent)
 
     def takeTankItem(self, who, rect):
         self.itemTankSound.play()
-        self.addItemScore(rect)
+        self.addItemScore(who, rect)
         if who.playerNum == 1:
             self.p1Lives += 1
         elif who.playerNum == 2:
@@ -355,7 +367,7 @@ class GameLevel(battlecity.level.Level):
             self.shovelItem.kill()
             self.shovelItem = None
         self.itemNormalSound.play()
-        self.addItemScore(rect)
+        self.addItemScore(who, rect)
         shovel_ent = battlecity.entities.shovel_action.ShovelAction(self, self.map)
         self.entities.add(shovel_ent)
         self.shovelItem = shovel_ent
@@ -363,7 +375,7 @@ class GameLevel(battlecity.level.Level):
     def takeGrenadeItem(self, who, rect):
         if who.type == ENTITY_TYPE_PLAYER_TANK:
             self.itemNormalSound.play()
-            self.addItemScore(rect)
+            self.addItemScore(who, rect)
             for t in self.spawnedEnemies:
                 if t.isSpawned:
                     t.takeDamage(None, 5)
@@ -374,20 +386,20 @@ class GameLevel(battlecity.level.Level):
         if who.type == ENTITY_TYPE_PLAYER_TANK:
             who.giveShield(60 * 8)
             self.itemNormalSound.play()
-            self.addItemScore(rect)
+            self.addItemScore(who, rect)
 
     def takeStarItem(self, who, rect):
         if who.type == ENTITY_TYPE_PLAYER_TANK:
             who.upgradeTank()
             self.itemNormalSound.play()
-            self.addItemScore(rect)
+            self.addItemScore(who, rect)
             pl = "Player" + str(who.playerNum) + "Level"
             self.scene.sceneMgr.gamedb[pl] = who.tankLevel
 
     def takeStopWatchItem(self, who, rect):
         if who.type == ENTITY_TYPE_PLAYER_TANK:
             self.itemNormalSound.play()
-            self.addItemScore(rect)
+            self.addItemScore(who, rect)
             for t in self.spawnedEnemies:
                 t.setStopWatch(60 * 9)
             

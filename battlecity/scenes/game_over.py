@@ -20,16 +20,23 @@ class GameOverScene(pyenkido.scene.Scene):
         self.newHiScore = False
 
         # Check for hiscore
-        if self.sceneMgr.gamedb["Score"] > self.sceneMgr.gamedb["HiScore"]:
+        if self.sceneMgr.gamedb["Score"][1] > self.sceneMgr.gamedb["HiScore"]:
             # HI SCORE!!!!
-            print "<<< HI-SCORE BROKEN! >>>"
-            self.sceneMgr.gamedb["HiScore"] = self.sceneMgr.gamedb["Score"]
+            print "<<< HI-SCORE BROKEN BY PLAYER 1! >>>"
+            self.sceneMgr.gamedb["HiScore"] = self.sceneMgr.gamedb["Score"][1]
+            self.newHiScore = True
+        if self.sceneMgr.gamedb["Score"][2] > self.sceneMgr.gamedb["HiScore"]:
+            # HI SCORE!!!!
+            print "<<< HI-SCORE BROKEN BY PLAYER 2! >>>"
+            self.sceneMgr.gamedb["HiScore"] = self.sceneMgr.gamedb["Score"][2]
             self.newHiScore = True
 
         # Save new score
         scoreData = battlecity.score_data.ScoreData()
         scoreData.hiScore = self.sceneMgr.gamedb["HiScore"]
-        scoreData.p1Score = self.sceneMgr.gamedb["Score"]
+        scoreData.p1Score = self.sceneMgr.gamedb["Score"][1]
+        if self.sceneMgr.gamedb["PlayerCount"] == 2:
+            scoreData.p2Score = self.sceneMgr.gamedb["Score"][2]
         scoreData.save("game.bin")
 
     def update(self):

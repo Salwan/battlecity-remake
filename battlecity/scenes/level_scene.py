@@ -58,6 +58,8 @@ class LevelScene(pyenkido.scene.Scene):
         self.level = battlecity.game_level.GameLevel(self, self.screen, self.bitmap, self.currentLevel)
         self.font = pyenkido.font.Font()
         self.sceneMgr.gamedb["FragList"] = {}
+        self.sceneMgr.gamedb["FragList"][1] = {}
+        self.sceneMgr.gamedb["FragList"][2] = {}
         self.sceneMgr.gamedb["GameOver"] = False
         
         self.decoFlag = self.bitmap.subsurface(InterfaceData[INTERFACE_FLAG])
@@ -105,7 +107,7 @@ class LevelScene(pyenkido.scene.Scene):
         self.screen.fill((127, 127, 127))
         self.level.draw()
         self.screen.blit(self.decoFlag, (232, 184))
-        self.screen.blit(self.decoPlayer, (233, 144))
+        
         self.font.SetColorMask(0, 0, 0)
         self.drawLevelNumber()
         self.drawLivesCount()
@@ -129,8 +131,7 @@ class LevelScene(pyenkido.scene.Scene):
                 self.font.SetColorMask(0x60, 0xff, 0x71)
                 self.font.DrawTextArRL(self.screen, (104,120), self.textPause)
 
-    def drawLevelNumber(self):
-        self.font.DrawTextASCII(self.screen, (233, 136), "IP")
+    def drawLevelNumber(self):        
         if self.currentLevel < 10:
             self.font.DrawTextArRL(self.screen, (242, 200), [(self.currentLevel, 4)])
         else:
@@ -139,9 +140,14 @@ class LevelScene(pyenkido.scene.Scene):
             self.font.DrawTextArRL(self.screen, (242, 200), [(ones, 4), (tens, 4)])
 
     def drawLivesCount(self):
-        self.font.DrawTextArRL(self.screen, (241, 144), [(self.level.p1Lives, 4)])
+        if 1 in self.level.playersAlive:
+            self.screen.blit(self.decoPlayer, (233, 144))
+            self.font.DrawTextASCII(self.screen, (233, 136), "IP")
+            self.font.DrawTextArRL(self.screen, (241, 144), [(self.level.p1Lives, 4)])
         if 2 in self.level.playersAlive:
-            self.font.DrawTextArRL(self.screen, (241, 152), [(self.level.p2Lives, 4)])
+            self.screen.blit(self.decoPlayer, (233, 168))
+            self.font.DrawTextEn(self.screen, (232, 160), [(24, 1), (15, 0)])
+            self.font.DrawTextArRL(self.screen, (241, 168), [(self.level.p2Lives, 4)])
 
     def drawEnemyCount(self):
         for n in range(0, self.level.enemyCount):
@@ -197,8 +203,8 @@ class LevelScene(pyenkido.scene.Scene):
             self.level.game_resumed()
 
     def end(self):
-        self.sceneMgr.gamedb["Player1Lives"] = self.level.p1Lives
-        self.sceneMgr.gamedb["Player2Lives"] = self.level.p2Lives
+        self.sceneMgr.gamedb["Lives"][1] = self.level.p1Lives
+        self.sceneMgr.gamedb["Lives"][2] = self.level.p2Lives
         self.sceneMgr.stopAllSounds()
         self.sceneMgr.change_scene("LevelScore")
         

@@ -26,7 +26,8 @@ class MainMenuScene(pyenkido.scene.Scene):
         self.cursorState = 0
         self.cursorPosition = 0
         
-        self.textScore = [(8,0),(11,1)]
+        self.textP1Score = [(8,0),(11,1)]
+        self.textP2Score = [(24,1), (11,1)]
         self.textHiScore = [(7,0),(8,0),(11,1)]
         self.text1Player = [(29,3),(32,2),(5,2),(0,5),(21,3),(0,2),(14,2),(17,2)]
         self.text2Player = [(29,3),(32,2),(6,2),(1,2),(14,3)]
@@ -59,8 +60,10 @@ class MainMenuScene(pyenkido.scene.Scene):
         pygame.draw.line(self.screen, (128, 128, 128), (0, 77), (self.screen.get_width(), 77))
         pygame.draw.line(self.screen, (128, 128, 128), (0, 86), (self.screen.get_width(), 86))
         self.screen.blit(self.namcoLogo, (88, 192))
-        self.font.DrawTextEn(self.screen, (16,24), self.textScore)
+        self.font.DrawTextEn(self.screen, (16,24), self.textP1Score)
+        self.font.DrawTextEn(self.screen, (168, 24), self.textP2Score)
         self.font.DrawNumberAr(self.screen, (40,24), self.lastP1Score, 6)
+        self.font.DrawNumberAr(self.screen, (192, 24), self.lastP2Score, 6)
         self.font.DrawTextEn(self.screen, (88,24), self.textHiScore)
         self.font.DrawNumberAr(self.screen, (108,24), self.HiScore, 6)
         self.font.DrawTextArRL(self.screen, (85,128), self.text1Player)
@@ -82,13 +85,12 @@ class MainMenuScene(pyenkido.scene.Scene):
         if self.cursorPosition == 1:
             playerCount = 2
         self.sceneMgr.gamedb["PlayerCount"] = playerCount
-        self.sceneMgr.gamedb["Player1Level"] = GAME_PLAYER_TANK_1
-        self.sceneMgr.gamedb["Player2Level"] = GAME_PLAYER_TANK_1
+        self.sceneMgr.gamedb["PlayersAlive"] = [1, 2]
+        self.sceneMgr.gamedb["TankLevel"] = {1:GAME_PLAYER_TANK_1, 2:GAME_PLAYER_TANK_1}
         self.sceneMgr.gamedb["LevelCount"] = 50
-        self.sceneMgr.gamedb["Player1Lives"] = 2
-        self.sceneMgr.gamedb["Player2Lives"] = 2
+        self.sceneMgr.gamedb["Lives"] = {1:3, 2:3}
         self.sceneMgr.gamedb["Level"] = 1
-        self.sceneMgr.gamedb["Score"] = 0
+        self.sceneMgr.gamedb["Score"] = {1:0, 2:0}
         self.sceneMgr.gamedb["HiScore"] = self.HiScore
         self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SweepInEffect(self.screen, (0, 0, 0), False, True, False, 0, 15))
         

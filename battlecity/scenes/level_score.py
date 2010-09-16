@@ -38,7 +38,7 @@ class LevelScoreScene(pyenkido.scene.Scene):
         self.isCountingType = GAME_ENEMY_1_TANK
         self.scoreDetails = {GAME_ENEMY_1_TANK:None, GAME_ENEMY_2_TANK:None,
                              GAME_ENEMY_3_TANK:None, GAME_ENEMY_4_TANK:None}
-        self.fragList = self.sceneMgr.gamedb["FragList"]
+        self.fragList = self.sceneMgr.gamedb["FragList"][1]
         self.enemyCount = 0
         for n in self.fragList.itervalues():
             self.enemyCount += n
@@ -88,7 +88,7 @@ class LevelScoreScene(pyenkido.scene.Scene):
 
         self.font.SetColorMask(0x00, 0xe0, 0x50)
         self.font.DrawNumberAr(self.screen, (48, 24), self.sceneMgr.gamedb["HiScore"], 7)
-        self.font.DrawNumberAr(self.screen, (144,72),self.sceneMgr.gamedb["Score"], 7)
+        self.font.DrawNumberAr(self.screen, (144,72),self.sceneMgr.gamedb["Score"][1], 7)
 
         self.font.ResetColorMask()
         self.font.DrawNumberAr(self.screen, (88, 40), self.sceneMgr.gamedb["Level"], 2)
