@@ -8,7 +8,7 @@ from pyenkido.font_defs import *
 
 class Font:
     def __init__(self):
-        self.fontmap = image_utils.load_image("pyenkido", "font.png")
+        self.fontmap = image_utils.load_image("res/textures", "font.png")
         self.fontmap.set_colorkey((0, 0, 0))
         self.defaultMask = self.fontmap.get_masks()
 

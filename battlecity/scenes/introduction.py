@@ -29,7 +29,7 @@ class IntroScene(pyenkido.scene.Scene):
         self.accum = 0.0
         self.offset = 0
 
-        self.logoSound = pyenkido.sound.load_sound("pyenkido", "logo.ogg")
+        self.logoSound = pyenkido.sound.load_sound("res/sounds", "logo.ogg")
         self.logoSound.play()
         
     def update(self):
