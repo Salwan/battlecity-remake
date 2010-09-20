@@ -15,7 +15,7 @@ BattleCityTgt = Target(
     description = "BattleCity Arabic Remake",
 
     # what to build
-    script = "battlecity.pyw",
+    script = "battlecity.py",
     icon_resources = [(1, "icon.ico")],
     dest_base = "BattleCity")
 	

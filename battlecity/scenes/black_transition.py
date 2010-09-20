@@ -10,18 +10,16 @@ import pyenkido.screen_effects
 class IntroBlackTransitionScene(pyenkido.scene.Scene):
     def start(self):
         self.ticks = 0
-        self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SlideInEffect(self.screen, (255, 255, 255), self.screen.get_width(), 0, 0, 0, 0, 60 *2))
+        self.color = 255
         
     def update(self):
         self.ticks += 1
         if self.ticks > 60 * 3:
             self.sceneMgr.change_scene("GameMainMenu")
+        self.color = pyenkido.math_utils.linear_interpolate(255, 0, self.ticks / (3.0 * 60.0))
         
     def draw(self):
-        if self.ticks < 60 * 2:
-            self.screen.fill((0, 0, 0))
-        else:
-            self.screen.fill((0, 0, 0))
+        self.screen.fill((self.color, self.color, self.color))
             
     def key_down(self, key):
         if key == pygame.K_SPACE or key == pygame.K_LCTRL or key == pygame.K_RETURN:

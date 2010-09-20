@@ -7,6 +7,8 @@ import pyenkido.scene
 import pyenkido.image_utils
 import pyenkido.screen_effects
 
+LOGO_VIEW_TIME = 10
+
 class IntroScene(pyenkido.scene.Scene):
     def start(self):
         self.logoBg = pyenkido.image_utils.load_image("res/textures", "cloudmill_bg.png")
@@ -20,16 +22,19 @@ class IntroScene(pyenkido.scene.Scene):
         self.cloud2.set_colorkey((255, 0, 255))
         
         self.ticks = 0
-        self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SlideInEffect(self.screen, (255, 255, 255), 0, 0, self.screen.get_height(), 0, 0, 60 *2))
-        self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SlideInEffect(self.screen, (255, 255, 255), 0, 0, 0, -self.screen.get_height(), 60 * 5, 60 * 2))
+        self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SlideInEffect(self.screen, (255, 255, 255), 0, 0, self.screen.get_height(), 0, 0, 60 * 2))
+        self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SlideInEffect(self.screen, (255, 255, 255), 0, 0, 0, -self.screen.get_height(), 60 * (LOGO_VIEW_TIME - 2), 60 * 2))
         self.logoFanRoto = None
         self.angle = 0
         self.accum = 0.0
         self.offset = 0
+
+        self.logoSound = pyenkido.sound.load_sound("pyenkido", "logo.ogg")
+        self.logoSound.play()
         
     def update(self):
         self.ticks += 1
-        if self.ticks > 60 * 7:
+        if self.ticks > 60 * LOGO_VIEW_TIME:
             self.sceneMgr.change_scene("IntroBlackTransition")
         
     def draw(self):
@@ -64,5 +69,6 @@ class IntroScene(pyenkido.scene.Scene):
     def key_down(self, key):
         if key == pygame.K_SPACE or key == pygame.K_LCTRL or key == pygame.K_RETURN:
             self.sceneMgr.clear_screen_effects()
-            self.ticks = 60 * 7 + 1
+            self.ticks = 60 * LOGO_VIEW_TIME + 1
+            self.logoSound.stop()
         
