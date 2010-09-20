@@ -50,7 +50,7 @@ class LevelScene(pyenkido.scene.Scene):
                 setTankPalette(a1, color)
                 a2.blit(a1, (0, a1.get_height() * j))
             a2.set_colorkey((255, 0, 255))
-            pygame.image.save(a2, "player" + str(i) + ".png")
+            #pygame.image.save(a2, "player" + str(i) + ".png")
             self.playerTextures[i + 1] = a2
 
         # Other stuff
