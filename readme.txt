@@ -3,8 +3,8 @@ Readme File:
 
 Title :		BattleCity Arabic Remake
 Description :	A remake of the classic game BattleCity in Arabic
-Release Date :	September 06, 2010
-Version :	0.9.1
+Release Date :	September 20, 2010
+Version :	0.9.2
 License :	GPL version 3 (you should have received a copy)
 Company :	CloudMill Games
 Email :		salwanmax@gmail.com
@@ -16,12 +16,13 @@ Credits :	Salwan Asaad (aka. SandHawk) <Developer>
 
 * Construction *
 
-Base :		Python 2.5, PyGame 1.9.1, PyEnkido (my own game engine)
+Base :		Python 2.6, PyGame 1.9.1, PyEnkido (my own game engine)
 Editor :	Embedded
 Known Bugs :	No 2 player mode yet
 Features :	A faithful recreation of the original mechanics
 Secret :	`G` to enable invincibility (development purposes)
-		F1-F6 give bonus items directly (development purposes)
+		F1-F6 give player 1 bonus items directly (development purposes)
+                F7-F12 give player 2 bonus items directly (development purposes)
 
 ===================================================
 
@@ -31,16 +32,23 @@ Game :		BattleCity Arabic Remake
 Type :		Arcade
 Requires :	Windows 2000 and later, Linux (Python + Pygame 1.9)
 Players :	1 player for now
-Controls :	- Arrow keys to control your tank
-		- Space to fire
+Controls :	- Player 1: Cursor keys and Space/LCtrl to fire
+		- Player 2: WSAD keys and RCtrl to fire
 		- Enter to select
-		- `P` to Pause
-		- Escape to quit the game
+		- Escape to pause then Q to quit or M for main menu
 
 ===================================================
 
 * Change Log *
 
+BattleCity Remake 0.9.2 (September 20, 2010)
+Major:
+- Player 2 is fully functional and has it's own state
+- *Fixed* occasional game.bin read error.
+Minor:
+- Added fullscreen mode support
+
+--------------------------------------------
 BattleCity Remake 0.9.1 (September 06, 2010)
 Major:
 - *Fixed* Ice tiles didn't work at all

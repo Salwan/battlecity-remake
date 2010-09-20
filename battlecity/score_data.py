@@ -17,7 +17,7 @@ class ScoreData(object):
 
     def load(self, filename):
         try:
-            file = open(filename, "rb")
+            file = open(filename, "r")
             data = pickle.load(file)
             if len(data) > 0:
                 self.hiScore = data[0]

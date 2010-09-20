@@ -85,7 +85,9 @@ class MainMenuScene(pyenkido.scene.Scene):
         if self.cursorPosition == 1:
             playerCount = 2
         self.sceneMgr.gamedb["PlayerCount"] = playerCount
-        self.sceneMgr.gamedb["PlayersAlive"] = [1, 2]
+        self.sceneMgr.gamedb["PlayersAlive"] = [1]
+        if playerCount == 2:
+            self.sceneMgr.gamedb["PlayersAlive"].append(2)
         self.sceneMgr.gamedb["TankLevel"] = {1:GAME_PLAYER_TANK_1, 2:GAME_PLAYER_TANK_1}
         self.sceneMgr.gamedb["LevelCount"] = 50
         self.sceneMgr.gamedb["Lives"] = {1:3, 2:3}

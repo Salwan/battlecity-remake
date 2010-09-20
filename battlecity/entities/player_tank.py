@@ -89,5 +89,8 @@ class PlayerTank(Tank):
     def game_resumed(self):
         self.channel.unpause()
 
+    def getTankLevel(self):
+        return self.tankLevel
+
 
 

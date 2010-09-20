@@ -127,6 +127,11 @@ class GameLevel(battlecity.level.Level):
             else:
                 self.levelWonWait -= 1
                 if self.levelWonWait <= 0:
+                    # upgrade tanks level
+                    if 1 in self.playersAlive and self.player_1:
+                        self.scene.sceneMgr.gamedb["TankLevel"][1] = self.player_1.getTankLevel()
+                    if 2 in self.playersAlive and self.player_2:
+                        self.scene.sceneMgr.gamedb["TankLevel"][2] = self.player_2.getTankLevel()
                     self.scene.end()
         else:
             if self.gameOverPopupPos[1] > self.gameOverPopupTargetY:
