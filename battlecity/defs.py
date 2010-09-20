@@ -7,6 +7,7 @@ import pygame
 # game defs
 GAME_LEVEL_COUNT = 50
 TIME_STEP = 1.0 / 60.0
+EAGLE_ADJ = [(5,11),(6,11),(7,11),(5,12),(7,12)]
 
 # Tank direction
 TANK_UP = 0
@@ -107,6 +108,8 @@ TANK_TYPE_PLAYER2 = 171
 TANK_TYPE_PLAYER3 = 172
 TANK_TYPE_PLAYER4 = 173
 
+WARNING_SIGN = 174
+
 
 # Data dictionaries
 GameData = {
@@ -168,12 +171,13 @@ TilesData = {
                 TILE_TYPE_STONE:    pygame.Rect(16, 96, 8, 8),
                 TILE_TYPE_TREE:     pygame.Rect(24, 96, 8, 8),
                 TILE_TYPE_WATER:    pygame.Rect(0, 104, 16, 8),
-                TILE_TYPE_ICE:      pygame.Rect(32, 96, 8, 8)
+                TILE_TYPE_ICE:      pygame.Rect(32, 96, 8, 8),
 }
 InterfaceData = {
                 INTERFACE_FLAG:     pygame.Rect(48, 80, 16, 16),
                 INTERFACE_ENEMY:    pygame.Rect(16, 104, 8, 8),
-                INTERFACE_PLAYER:   pygame.Rect(24, 104, 8, 8)
+                INTERFACE_PLAYER:   pygame.Rect(24, 104, 8, 8),
+                WARNING_SIGN:       pygame.Rect(112, 70, 132, 10),
 }
 
 # Tank color palettes

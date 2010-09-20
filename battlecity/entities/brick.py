@@ -19,6 +19,14 @@ class Brick(battlecity.entities.tile.Tile):
             self.rects.append(pygame.rect.Rect(p[0] * 4, p[1] * 4, 4, 4))
         self.destroySound = pyenkido.sound.load_sound("res/sounds", "brick_destroy.ogg")
 
+        # Determine if this is a base wall
+        aat = (at[0] / 2, at[1] / 2)
+        if aat in EAGLE_ADJ:
+            self.eagleWall = True
+        else:
+            self.eagleWall = False
+
+
     def collideRect(self, rect):
         for r in self.rects:
             rc = pygame.rect.Rect(r.left + self.rect.left, r.top + self.rect.top, r.width, r.height)
@@ -40,6 +48,9 @@ class Brick(battlecity.entities.tile.Tile):
         if len(self.rects) <= 0:
             self.kill()
 
+        #if self.eagleWall:
+        #    print "YOU JUST HIT A FUCKING BASE WALL MADE OF BRICK!!!"
+
     def clearPieces(self, pieces_list):
         """pieces are in the form: [(0,0), (1,0), (0,1), (1,1)]"""
         rc = None
@@ -48,4 +59,10 @@ class Brick(battlecity.entities.tile.Tile):
             pygame.draw.rect(self.image, (0, 0, 0), rc)
             if rc in self.rects:
                 self.rects.remove(rc)
+
+    def isEagleWall(self):
+        return self.eagleWall
+
+    def getObjectCoords(self, pos):
+        return ((pos[0] - 16) / 16, (pos[1] - 16) / 16)
 

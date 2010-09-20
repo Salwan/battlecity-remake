@@ -57,8 +57,10 @@ class CannonShell(pyenkido.entity.Entity):
                         center = self.rect.center
                         if self.direction == TANK_LEFT or self.direction == TANK_RIGHT:
                             t.takeDamage(pygame.rect.Rect(center[0] - 2, center[1] - 7, 4, 14), tankLevel)
+                            self.level.checkWarning(t)
                         elif self.direction == TANK_UP or self.direction == TANK_DOWN:
                             t.takeDamage(pygame.rect.Rect(center[0] - 7, center[1] - 2, 14, 4), tankLevel)
+                            self.level.checkWarning(t)
                     elif t.type == TILE_TYPE_EAGLE:
                         self.spawnImpactExplosion()
                         t.takeDamage(self.level)

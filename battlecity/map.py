@@ -70,15 +70,15 @@ class Map:
         if type == TILE_TYPE_NONE:
             return
         elif type == TILE_TYPE_BRICK:
-            tile = brick.Brick(self.tilesGroup, self.bitmap, (0, 0))
+            tile = brick.Brick(self.tilesGroup, self.bitmap, at)
         elif type == TILE_TYPE_WATER:
-            tile = water.Water(self.tilesGroup, self.bitmap, (0, 0))
+            tile = water.Water(self.tilesGroup, self.bitmap, at)
         elif type == TILE_TYPE_STONE:
-            tile = stone.Stone(self.tilesGroup, self.bitmap, (0, 0))
+            tile = stone.Stone(self.tilesGroup, self.bitmap, at)
         elif type == TILE_TYPE_ICE:
-            tile = ice.Ice(self.tilesGroup, self.bitmap, (0, 0))
+            tile = ice.Ice(self.tilesGroup, self.bitmap, at)
         elif type == TILE_TYPE_TREE:
-            tile = tree.Tree(self.tilesGroup, self.bitmap, (0, 0))
+            tile = tree.Tree(self.tilesGroup, self.bitmap, at)
         self.setTile(at, tile)
 
     def clearMap(self):

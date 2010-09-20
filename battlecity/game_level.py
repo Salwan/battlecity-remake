@@ -18,6 +18,9 @@ from pyenkido.math_utils import *
 ENEMY_SPAWN_PERIOD = 80
 PLAYER_SPAWN_PERIOD = 60
 
+WARNING_PERIOD = 60 * 3
+WARNING_BLINK_RATE = 30
+
 class GameLevel(battlecity.level.Level):
     def __init__(self, scene, screen, bitmap, level):
         super(GameLevel, self).__init__(screen, bitmap, level)
@@ -90,8 +93,14 @@ class GameLevel(battlecity.level.Level):
 
         # Spawn players
         self.spawnNewPlayers()
-        
-        
+
+        # Warning
+        self.warningPeriod = WARNING_PERIOD
+        self.warningBlinkRate = WARNING_BLINK_RATE
+        self.isWarning = False
+        self.warningBlink = 1
+        self.warningText = self.bitmap.subsurface(InterfaceData[WARNING_SIGN])
+        self.warningSound = pyenkido.sound.load_sound("res/sounds", "warning.ogg")
 
     def update(self):
         super(GameLevel, self).update()
@@ -165,11 +174,26 @@ class GameLevel(battlecity.level.Level):
                             self.item.kill()
                             self.item = None
 
+        # Handle warning
+        if self.isWarning and not self.isGameOver:
+            self.warningPeriod -= 1
+            self.warningBlinkRate -= 1
+            if self.warningPeriod <= 0:
+                self.isWarning = False
+                self.warningPeriod = WARNING_PERIOD
+            if self.warningBlinkRate <= 0:
+                self.warningBlinkRate = WARNING_BLINK_RATE
+                self.warningBlink = 1 - self.warningBlink
+
     def draw(self):
         super(GameLevel, self).draw()
         if self.isGameOver:
             self.screen.blit(self.gameOverPopup, self.gameOverPopupPos)
 
+        # Draw warning
+        if self.isWarning and not self.isGameOver and self.warningBlink == 1:
+            self.screen.blit(self.warningText, (54, 226))
+            
     def endPlayer1(self):
         self.playersAlive.remove(1)
         self.scene.sceneMgr.gamedb["PlayersAlive"] = self.playersAlive
@@ -320,6 +344,13 @@ class GameLevel(battlecity.level.Level):
             self.p1Lives -= 1
         elif player.playerNum == 2:
             self.p2Lives -= 1
+
+    def checkWarning(self, tile):
+        if tile.isEagleWall() and not self.isWarning:
+            self.isWarning = True
+            self.warningPeriod = WARNING_PERIOD
+            self.warningBlinkRate = WARNING_BLINK_RATE
+            self.warningSound.play()
 
     def spawnItem(self):
         self.itemAppearSound.play()

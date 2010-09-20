@@ -31,8 +31,7 @@ class LevelScene(pyenkido.scene.Scene):
                 a2.blit(a3, (0, a1.get_height() * j))
             #pygame.image.save(a2, "enemy_texture" + str(i) + str(j) + ".png")
             a2.set_colorkey((255, 0, 255))
-            self.enemyTextures[t] = a2
-        self.bitmap.set_colorkey((255, 0, 255))
+            self.enemyTextures[t] = a2        
         
         # Build Players Textures
         self.playerTextures = {}
@@ -52,6 +51,9 @@ class LevelScene(pyenkido.scene.Scene):
             a2.set_colorkey((255, 0, 255))
             #pygame.image.save(a2, "player" + str(i) + ".png")
             self.playerTextures[i + 1] = a2
+
+        # Enable transperancy
+        self.bitmap.set_colorkey((255, 0, 255))
 
         # Other stuff
         self.currentLevel = self.sceneMgr.gamedb["Level"]
