@@ -60,10 +60,14 @@ class MainMenuScene(pyenkido.scene.Scene):
         pygame.draw.line(self.screen, (128, 128, 128), (0, 77), (self.screen.get_width(), 77))
         pygame.draw.line(self.screen, (128, 128, 128), (0, 86), (self.screen.get_width(), 86))
         self.screen.blit(self.namcoLogo, (88, 192))
-        self.font.DrawTextEn(self.screen, (16,24), self.textP1Score)
-        self.font.DrawTextEn(self.screen, (168, 24), self.textP2Score)
-        self.font.DrawNumberAr(self.screen, (40,24), self.lastP1Score, 6)
-        self.font.DrawNumberAr(self.screen, (192, 24), self.lastP2Score, 6)
+
+        if self.lastP1Score > 0:
+            self.font.DrawTextEn(self.screen, (16,24), self.textP1Score)
+            self.font.DrawNumberAr(self.screen, (40,24), self.lastP1Score, 6)
+        if self.lastP2Score > 0:
+            self.font.DrawTextEn(self.screen, (168, 24), self.textP2Score)
+            self.font.DrawNumberAr(self.screen, (192, 24), self.lastP2Score, 6)
+
         self.font.DrawTextEn(self.screen, (88,24), self.textHiScore)
         self.font.DrawNumberAr(self.screen, (108,24), self.HiScore, 6)
         self.font.DrawTextArRL(self.screen, (85,128), self.text1Player)

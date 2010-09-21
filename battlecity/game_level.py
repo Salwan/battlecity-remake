@@ -15,7 +15,7 @@ from battlecity.defs import *
 from battlecity.entities.image_entity import *
 from pyenkido.math_utils import *
 
-ENEMY_SPAWN_PERIOD = 80
+ENEMY_SPAWN_PERIOD = 60 * 2
 PLAYER_SPAWN_PERIOD = 60
 
 WARNING_PERIOD = 60 * 3
@@ -142,6 +142,16 @@ class GameLevel(battlecity.level.Level):
                     if 2 in self.playersAlive and self.player_2:
                         self.scene.sceneMgr.gamedb["TankLevel"][2] = self.player_2.getTankLevel()
                     self.scene.end()
+
+            # Clear dead enemies
+            if len(self.spawnedEnemies) > 0:
+                to_remove = []
+                for e in self.spawnedEnemies:
+                    if not e.isAlive():
+                        to_remove.append(e)
+                for t in to_remove:
+                    self.spawnedEnemies.remove(t)
+                
         else:
             if self.gameOverPopupPos[1] > self.gameOverPopupTargetY:
                 self.gameOverPopupPos = (self.gameOverPopupPos[0], self.gameOverPopupPos[1] - 1)
@@ -260,20 +270,18 @@ class GameLevel(battlecity.level.Level):
         self.entities.add(spawner)
 
     def spawnNewEnemy(self):
-        if len(self.spawnedEnemies) > 0:
-            to_remove = []
-            for e in self.spawnedEnemies:
-                if not e.isAlive():
-                    to_remove.append(e)
-            for t in to_remove:
-                self.spawnedEnemies.remove(t)
+        # 4 tanks in single player mode
+        enemyCount = 4
+        # 6 tanks in 2 player mode
+        if self.playerCount == 2:
+            enemyCount = 6
 
         if self.enemyCount <= 0:
             if len(self.spawnedEnemies) <= 0:
                 self.isLevelWon = True
             return
 
-        if len(self.spawnedEnemies) >= 4:
+        if len(self.spawnedEnemies) >= enemyCount:
             return
 
         rc = None

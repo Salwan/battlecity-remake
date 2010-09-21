@@ -12,10 +12,10 @@ PLAYER_START_SHIELDED_PERIOD = 92 # 92 frames
 
 # (Speed, CannonShellSpeedBoost, CannonShellTimeOut, ConcurrentShellNumber)
 PlayerTankProperties = {
-    GAME_PLAYER_TANK_1: (35.0, 0.0, 15, 1),
-    GAME_PLAYER_TANK_2: (40.0, 80.0, 12, 1),
+    GAME_PLAYER_TANK_1: (40.0, 0.0, 15, 1),
+    GAME_PLAYER_TANK_2: (45.0, 80.0, 12, 1),
     GAME_PLAYER_TANK_3: (45.0, 120.0, 10, 1),
-    GAME_PLAYER_TANK_4: (45.0, 200.0, 6, 2),
+    GAME_PLAYER_TANK_4: (50.0, 200.0, 6, 2),
 }
 
 class PlayerTank(Tank):
