@@ -54,6 +54,18 @@ class PlayerTank(Tank):
     def update(self):
         super(PlayerTank, self).update()
 
+    def postDraw(self, screen):
+        super(PlayerTank, self).postDraw(screen)
+
+        # draw freeze blink
+        if self.controller != None and self.controller.frozen and self.controller.freezeBlink == 1:
+            pygame.draw.line(screen, (255, 255, 255),
+                (self.rect.left + 2, self.rect.top + 2),
+                (self.rect.right - 2, self.rect.bottom - 2))
+            pygame.draw.line(screen, (255, 255, 255),
+                (self.rect.right - 2, self.rect.top + 2),
+                (self.rect.left + 2, self.rect.bottom - 2))
+
     def spawned(self):
         super(PlayerTank, self).spawned()
         self.giveShield(PLAYER_START_SHIELDED_PERIOD)
@@ -91,6 +103,10 @@ class PlayerTank(Tank):
 
     def getTankLevel(self):
         return self.tankLevel
+
+    def freezePenalty(self):
+        if self.controller != None and TANK_SHIELDED not in self.state:
+            self.controller.freezePlayer()
 
 
 

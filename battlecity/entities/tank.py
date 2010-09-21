@@ -189,7 +189,8 @@ class Tank(pyenkido.entity.Entity):
         center = self.rect.center
         nearest = (round(float(center[0] - 16) / 8.0), round(float(center[1] - 16) / 8.0))
         nearest_pos = (16 + nearest[0] * 8, 16 + nearest[1] * 8)
-        self.rect.center = nearest_pos
+        if self.isMoveValid(pygame.Rect(nearest_pos[0] - 8, nearest_pos[1] - 8, 16, 16), True):
+            self.rect.center = nearest_pos
 
     def giveShield(self, frame_count):
         self.state.append(TANK_SHIELDED)

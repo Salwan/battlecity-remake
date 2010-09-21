@@ -81,10 +81,16 @@ class CannonShell(pyenkido.entity.Entity):
                         if not c.isAlive():
                             self.level.addFragScore(self.shooter, c.tankType, c.rect)
                         self.kill()
+                    elif self.shooter.type == ENTITY_TYPE_PLAYER_TANK and c.type == ENTITY_TYPE_PLAYER_TANK and self.shooter is not c:
+                        if not self.level.godMode:
+                            self.spawnImpactExplosion()
+                            c.freezePenalty()
+                            self.kill()
                     elif c.type == ENTITY_TYPE_CANNON_SHELL:
                         self.spawnImpactExplosion()
                         c.kill()
                         self.kill()
+
 
     def spawnImpactExplosion(self):
         explosion = battlecity.entities.explosion.ImpactExplosion(self.level.bitmap, self.rect.center)

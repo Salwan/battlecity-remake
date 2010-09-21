@@ -7,6 +7,9 @@ import pyenkido.entity
 import pyenkido.controller
 from battlecity.defs import *
 
+FREEZE_PENALTY_PERIOD = 60 * 3
+FREEZE_BLINK_RATE = 10
+
 class PlayerController(pyenkido.controller.Controller):
     def __init__(self):
         super(PlayerController, self).__init__()
@@ -14,6 +17,10 @@ class PlayerController(pyenkido.controller.Controller):
         self.fireKeysDown = [] 
         self.setPlayerControls(1)
         self.active = True
+        self.frozen = False
+        self.freezeTicks = FREEZE_PENALTY_PERIOD
+        self.freezeBlinkRate = FREEZE_BLINK_RATE
+        self.freezeBlink = 1
         self.score = 0               
 
         # Audio
@@ -43,8 +50,19 @@ class PlayerController(pyenkido.controller.Controller):
         
 
     def update(self):
+        if self.frozen:
+            self.freezeTicks -= 1
+            self.freezeBlinkRate -= 1
+            if self.freezeBlinkRate <= 0:
+                self.freezeBlinkRate = FREEZE_BLINK_RATE
+                self.freezeBlink = 1 - self.freezeBlink
+            if self.freezeTicks <= 0:
+                self.frozen = False
+            return
+
         if not self.entity or not self.active:
             return
+
         if len(self.downMoveKeys) > 0:
             self.entity.move()
         if len(self.fireKeysDown) > 0:
@@ -146,3 +164,8 @@ class PlayerController(pyenkido.controller.Controller):
     def game_paused(self):
         # Stop moving if you were helding down movement keys
         self.downMoveKeys = []
+
+    def freezePlayer(self):
+        self.frozen = True
+        self.freezeTicks = FREEZE_PENALTY_PERIOD
+        self.freezeBlinkRate = FREEZE_BLINK_RATE

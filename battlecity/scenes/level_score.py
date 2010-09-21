@@ -105,6 +105,8 @@ class LevelScoreScene(pyenkido.scene.Scene):
                     print "WON!!! SHOULD START NEW ROUND..."
                     self.sceneMgr.add_screen_effect(pyenkido.screen_effects.SweepInEffect(self.screen, (0, 0, 0), False, True, False, 0, 15))
                     self.sceneMgr.gamedb["Level"] += 1
+                    if self.sceneMgr.gamedb["Level"] > GAME_LEVEL_COUNT:
+                        self.sceneMgr.gamedb["Level"] = 1
                     self.sceneMgr.change_scene("LevelDisplay")
                     #self.sceneMgr.closeGame()
                 
