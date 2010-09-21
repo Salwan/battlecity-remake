@@ -40,6 +40,12 @@ class GameLevel(battlecity.level.Level):
         self.p2Lives = self.scene.sceneMgr.gamedb["Lives"][2]
         self.playerCount = self.scene.sceneMgr.gamedb["PlayerCount"]
         self.playersAlive = self.scene.sceneMgr.gamedb["PlayersAlive"]
+
+        # 2-player mode specific gameover
+        self.isPlayerGameOver = False
+        self.playerGameOverPos = (0, 0)
+        self.playerGameOverTargetX = 0
+        self.playerGameOverWait = 100
         
         self.isLevelWon = False
         self.levelWonWait = 180        
@@ -118,7 +124,7 @@ class GameLevel(battlecity.level.Level):
                         if self.p1Lives > 0:
                             self.spawnNewPlayer1()
                         else:
-                            # TEMP: Player 1 is no longer alive
+                            # Player 1 is no longer alive
                             self.endPlayer1()
                 if 2 in self.playersAlive and not self.player_2.isAlive():
                     self.player2SpawnTicks -= 1
@@ -128,8 +134,21 @@ class GameLevel(battlecity.level.Level):
                         if self.p2Lives > 0:
                             self.spawnNewPlayer2()
                         else:
-                            # TEMP: Player 2 is no longer alive
+                            # Player 2 is no longer alive
                             self.endPlayer2()
+
+                # Player game over
+                if self.isPlayerGameOver:
+                    if self.playerGameOverPos[0] != self.playerGameOverTargetX:
+                        if self.playerGameOverPos[0] < self.playerGameOverTargetX:
+                            self.playerGameOverPos = (self.playerGameOverPos[0] + 1, self.playerGameOverPos[1])
+                        else:
+                            self.playerGameOverPos = (self.playerGameOverPos[0] - 1, self.playerGameOverPos[1])
+                    elif self.playerGameOverWait > 0:
+                        self.playerGameOverWait -= 1
+                    else:
+                        self.isPlayerGameOver = False
+
                 # Game Over
                 if len(self.playersAlive) <= 0:
                     self.setGameOver()
@@ -200,6 +219,9 @@ class GameLevel(battlecity.level.Level):
         if self.isGameOver:
             self.screen.blit(self.gameOverPopup, self.gameOverPopupPos)
 
+        if self.isPlayerGameOver:
+            self.screen.blit(self.gameOverPopup, self.playerGameOverPos)
+
         # Draw warning
         if self.isWarning and not self.isGameOver and self.warningBlink == 1:
             self.screen.blit(self.warningText, (54, 226))
@@ -208,9 +230,23 @@ class GameLevel(battlecity.level.Level):
         self.playersAlive.remove(1)
         self.scene.sceneMgr.gamedb["PlayersAlive"] = self.playersAlive
 
+        if len(self.playersAlive) > 0:
+            # player 1 specific game over
+            self.isPlayerGameOver = True
+            self.playerGameOverPos = (-32, 208)
+            self.playerGameOverTargetX = 72
+            self.playerGameOverWait = 100
+
     def endPlayer2(self):
         self.playersAlive.remove(2)
         self.scene.sceneMgr.gamedb["PlayersAlive"] = self.playersAlive
+
+        if len(self.playersAlive) > 0:
+            # player 2 specific game over
+            self.isPlayerGameOver = True
+            self.playerGameOverPos = (256 + 32, 208)
+            self.playerGameOverTargetX = 137
+            self.playerGameOverWait = 100
 
     def collideEntities(self, rect):
         dummy_sprite = pygame.sprite.Sprite()
