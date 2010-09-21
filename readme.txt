@@ -3,8 +3,8 @@ Readme File:
 
 Title :		BattleCity Arabic Remake
 Description :	A remake of the classic game BattleCity in Arabic
-Release Date :	September 20, 2010
-Version :	0.9.2
+Release Date :	September 21, 2010
+Version :	1.0 RC1
 License :	GPL version 3 (you should have received a copy)
 Company :	CloudMill Games
 Email :		salwanmax@gmail.com
@@ -18,7 +18,7 @@ Credits :	Salwan Asaad (aka. SandHawk) <Developer>
 
 Base :		Python 2.6, PyGame 1.9.1, PyEnkido (my own game engine)
 Editor :	Embedded
-Known Bugs :	No 2 player mode yet
+Known Bugs :	None!
 Features :	A faithful recreation of the original mechanics
 Secret :	`G` to enable invincibility (development purposes)
 		F1-F6 give player 1 bonus items directly (development purposes)
@@ -41,6 +41,16 @@ Controls :	- Player 1: Cursor keys and Space/LCtrl to fire
 
 * Change Log *
 
+BattleCity Remake 1.0 RC1 (September 21, 2010)
+Major:
+- *Fixed* occasional read error when pickle tries to read game.bin
+- *Fixed* issue that sometimes caused tanks to overlap
+- Game now goes back to round 1 if you win round 50
+Minor:
+- Warning when base in danger
+- Gameover notification when one of the player in a 2 players game dies
+
+--------------------------------------------
 BattleCity Remake 0.9.2 (September 20, 2010)
 Major:
 - Player 2 is fully functional and has it's own state
@@ -61,5 +71,6 @@ Minor:
 - Pause menu that give three choices: continue, back to mainmenu, and exit game.
 - Score screen now can be skipped quickly by holding space or enter
 
+--------------------------------------------
 BattleCity Remake 0.9 (September 03, 2010)
 - Initial release
