@@ -107,6 +107,7 @@ class GameLevel(battlecity.level.Level):
         self.warningBlink = 1
         self.warningText = self.bitmap.subsurface(InterfaceData[WARNING_SIGN])
         self.warningSound = pyenkido.sound.load_sound("res/sounds", "warning.ogg")
+        self.warningChannel = pygame.mixer.Channel(4)
 
     def update(self):
         super(GameLevel, self).update()
@@ -393,7 +394,8 @@ class GameLevel(battlecity.level.Level):
             self.isWarning = True
             self.warningPeriod = WARNING_PERIOD
             self.warningBlinkRate = WARNING_BLINK_RATE
-            self.warningSound.play()
+            #self.warningSound.play()
+            self.warningChannel.play(self.warningSound, 0)
 
     def spawnItem(self):
         self.itemAppearSound.play()

@@ -16,7 +16,7 @@ class ItemEntity(pyenkido.entity.Entity):
         self.image = pygame.Surface((1,1))
         self.image.set_colorkey((255, 0, 255))
         self.image.fill((255, 0, 255))
-        self.rect = pygame.rect.Rect(position[0] + 2, position[1], 12, 12)
+        self.rect = pygame.rect.Rect(position[0] + 1, position[1] + 1, 14, 14)
         self.ticks = 0
         self.blinkState = True
         # lives for 10 seconds

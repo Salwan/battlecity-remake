@@ -11,7 +11,7 @@ class Brick(battlecity.entities.tile.Tile):
     def __init__(self, group, bitmap, at, layer = 0):
         self.bitmap = bitmap
         self.rects = []
-        super(Brick, self).__init__(group, bitmap.subsurface(TilesData[TILE_TYPE_BRICK]), pygame.Rect(0, 0, 16, 16), TILE_TYPE_BRICK, layer)
+        super(Brick, self).__init__(group, bitmap.subsurface(TilesData[TILE_TYPE_BRICK]), pygame.Rect(0, 0, 8, 8), TILE_TYPE_BRICK, layer)
         self.image = self.image.copy()
         self.setPosition(at)
         pieces = [(0,0), (1,0), (0,1), (1,1)]
@@ -34,19 +34,21 @@ class Brick(battlecity.entities.tile.Tile):
         self.buildCollisionRects()
 
     # EXPENSIVE: OPTIMIZE
-    def collideRect(self, rect):        
-        for r in self.collRects:
-            if rect.colliderect(r):
-                return True
+    def collideRect(self, rect):
+        if self.collFilter.colliderect(rect):
+            for r in self.collRects:
+                if rect.colliderect(r):
+                    return True
         return False
     
     def takeDamage(self, area, amount = 0):
         to_remove = []
-        for r in self.rects:
-            rc = pygame.rect.Rect(r.left + self.rect.left, r.top + self.rect.top, r.width, r.height)
-            if area.colliderect(rc):
-                pygame.draw.rect(self.image, (0, 0, 0), r)
-                to_remove.append(r)
+        if self.collFilter.colliderect(area):
+            for r in self.rects:
+                rc = pygame.rect.Rect(r.left + self.rect.left, r.top + self.rect.top, r.width, r.height)
+                if area.colliderect(rc):
+                    pygame.draw.rect(self.image, (0, 0, 0), r)
+                    to_remove.append(r)
         if len(to_remove) > 0:
             self.destroySound.play()
         for t in to_remove:
@@ -65,4 +67,5 @@ class Brick(battlecity.entities.tile.Tile):
         self.collRects = []
         for r in self.rects:
             self.collRects.append(pygame.rect.Rect(r.left + self.rect.left, r.top + self.rect.top, r.width, r.height))
+        self.collFilter = pygame.rect.Rect(self.rect.left, self.rect.top, 8, 8)
 
