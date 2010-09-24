@@ -2,7 +2,6 @@
 ## Module: BattleCity Config
 ## Author: Salwan
 
-import pygame
 from Tkinter import *
 from pyenkido.preferences import *
 

@@ -20,6 +20,6 @@ BattleCityTgt = Target(
     dest_base = "Config")
 	
 setup(windows=[BattleCityTgt],
-     options = {'py2exe': {'compressed': 1, 'optimize': 2, 'bundle_files':1} },
+     options = {'py2exe': {'compressed': 1, 'optimize': 2, 'bundle_files':2, 'dll_excludes': ['tcl84.dll','tk84.dll']}},
      zipfile=None
 	 )
