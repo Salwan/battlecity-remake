@@ -5,7 +5,7 @@ class Target:
     def __init__(self, **kw):
         self.__dict__.update(kw)
         # for the versioninfo resources
-        self.version = "0.9.0"
+        self.version = "1.0"
         self.company_name = "CloudMill Games"
         self.copyright = "Copyright 1985 NAMCO LTD"
         self.name = "BattleCity Arabic Remake"

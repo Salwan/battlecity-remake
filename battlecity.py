@@ -2,6 +2,11 @@
 ## Author: Salwan Asaad
 ## Main
 
+# Use psyco JIT compiler
+import psyco
+psyco.full()
+
+
 import pyenkido.startup
 import pyenkido.game
 import battlecity.scenes.introduction
@@ -29,7 +34,7 @@ class BattleCityStartup(pyenkido.startup.Startup):
 
 Preferences = pyenkido.game.GamePreferences()
 Preferences.fullscreen = False
-Preferences.displayResolution = (768, 720)
+Preferences.displayResolution = (800, 600)
 Preferences.displayResolutionFullscreen = (800, 600)
 Preferences.mouseVisible = False
 Preferences.scaleFilter = pyenkido.game.SCALE_FILTER_NONE

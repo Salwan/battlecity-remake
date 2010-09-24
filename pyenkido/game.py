@@ -103,6 +103,7 @@ class Game:
         print "Software surface blitting: ", BoolToString(videoInfo.blit_sw)
         print "Software surface color-key blitting: ", BoolToString(videoInfo.blit_sw_CC)
         print "Software surface alpha blitting: ", BoolToString(videoInfo.blit_sw_A)
+        print "Current display mode: ", videoInfo.current_w, "x", videoInfo.current_h
         
         # Audio info
         pygame.mixer.init(buffer=512)

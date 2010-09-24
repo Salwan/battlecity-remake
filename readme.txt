@@ -3,8 +3,8 @@ Readme File:
 
 Title :		BattleCity Arabic Remake
 Description :	A remake of the classic game BattleCity in Arabic
-Release Date :	September 21, 2010
-Version :	1.0 RC2
+Release Date :	September 24, 2010
+Version :	1.0
 License :	GPL version 3 (you should have received a copy)
 Company :	CloudMill Games
 Email :		salwanmax@gmail.com
@@ -16,7 +16,7 @@ Credits :	Salwan Asaad (aka. SandHawk) <Developer>
 
 * Construction *
 
-Base :		Python 2.5, PyGame 1.9.1, PyEnkido (my own game engine)
+Base :		Python 2.5, PyGame 1.9.1, Psyco 1.6, PyEnkido (my own game engine)
 Editor :	Embedded
 Known Bugs :	None!
 Features :	A faithful recreation of the original mechanics
@@ -31,6 +31,7 @@ Secret :	`G` to enable invincibility (development purposes)
 Game :		BattleCity Arabic Remake
 Type :		Arcade
 Requires :	Windows 2000 and later, Linux (Python + Pygame 1.9)
+Optional:	Psyco 1.6
 Players :	1 player for now
 Controls :	- Player 1: Cursor keys and Space/LCtrl to fire
 		- Player 2: WSAD keys and RCtrl to fire
@@ -41,10 +42,12 @@ Controls :	- Player 1: Cursor keys and Space/LCtrl to fire
 
 * Change Log *
 
-BattleCity Reamake 1.0 RC2 ()
+BattleCity Remake 1.0 (September 24, 2010)
 Major:
-- *Fixed* a glitch in carrying tank level across levels
-- Optimizations to boost performance
+- Battlecity now uses Psyco, the embedded JIT compiler for python
+- *Fixed* a glitch in carrying tank level across rounds
+Minor:
+- Code Optimizations to boost performance
 --------------------------------------------
 
 BattleCity Remake 1.0 RC1 (September 21, 2010)
