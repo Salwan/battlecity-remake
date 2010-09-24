@@ -382,8 +382,7 @@ class GameLevel(battlecity.level.Level):
         self.scene.resumeGame()
 
     def lostLife(self, player):
-        pl = "Player" + str(player.playerNum) + "Level"
-        self.scene.sceneMgr.gamedb[pl] = GAME_PLAYER_TANK_1
+        self.scene.sceneMgr.gamedb["TankLevel"][player.playerNum] = GAME_PLAYER_TANK_1
         if player.playerNum == 1:
             self.p1Lives -= 1
         elif player.playerNum == 2:
