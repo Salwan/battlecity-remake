@@ -2,6 +2,11 @@
 ## Author: Salwan Asaad
 ## Main
 
+# Use psyco JIT compiler
+import psyco
+psyco.full()
+
+
 import pyenkido.startup
 import pyenkido.game
 from pyenkido.preferences import *
