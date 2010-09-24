@@ -54,8 +54,8 @@ class MyApp:
             }
 
         self.supMode = {
-            0:"No - Default",
-            1:"Yes"
+            0:"Windowed - Default",
+            1:"Fullscreen"
             }
 
         self.resList = Listbox(self.mainFrame, selectmode=SINGLE, height=4, exportselection=0)
