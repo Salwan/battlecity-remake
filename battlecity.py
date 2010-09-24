@@ -9,6 +9,7 @@ psyco.full()
 
 import pyenkido.startup
 import pyenkido.game
+from pyenkido.preferences import *
 import battlecity.scenes.introduction
 import battlecity.scenes.black_transition
 import battlecity.scenes.mainmenu
@@ -33,12 +34,8 @@ class BattleCityStartup(pyenkido.startup.Startup):
         self.sceneMgr.change_scene("Intro")
 
 Preferences = pyenkido.game.GamePreferences()
-Preferences.fullscreen = False
-Preferences.displayResolution = (800, 600)
-Preferences.displayResolutionFullscreen = (800, 600)
+Preferences.load("game.cfg")
 Preferences.mouseVisible = False
-Preferences.scaleFilter = pyenkido.game.SCALE_FILTER_NONE
-Preferences.scaleFilterFullscreen = pyenkido.game.SCALE_FILTER_SMOOTH
 Preferences.iconFile = "res/window_icon.png"
 Game = pyenkido.game.Game(Preferences)
 BattleCity = BattleCityStartup(Game)

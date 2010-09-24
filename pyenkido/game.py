@@ -6,31 +6,14 @@
 import sys, pygame
 import scene_manager
 import screen_effects
+from preferences import *
 
-# enum SCALE_FILTER_TYPE
-SCALE_FILTER_NONE = 0
-SCALE_FILTER_SMOOTH = 1
 
 def BoolToString(value):
     if value:
         return "True"
     else:
         return "False"
-
-class GamePreferences:
-    fullscreen = False
-    renderingResolution = (256, 240)
-    displayResolution = (800, 600)
-    displayResolutionFullscreen = (800, 600)
-    mouseVisible = True
-    scaleFilter = SCALE_FILTER_NONE
-    scaleFilterFullscreen = SCALE_FILTER_SMOOTH
-    framerate = 60
-    alpha = False
-    gameTitle = "PyEnkido Game Engine"
-    iconFile = ""
-    def __init__(self):
-        pass
         
 ##class GameInfo:
 ##    def __init__(self, game_preferences, scene_manager, screen):
@@ -42,12 +25,8 @@ class Game:
     def __init__(self, preferences):
         self.fullscreen = preferences.fullscreen
         self.renderingResolution = preferences.renderingResolution
-        if self.fullscreen:
-            self.displayResolution = preferences.displayResolutionFullscreen
-            self.scaleFilter = preferences.scaleFilterFullscreen
-        else:
-            self.displayResolution = preferences.displayResolution
-            self.scaleFilter = preferences.scaleFilter
+        self.displayResolution = preferences.displayResolution
+        self.scaleFilter = preferences.scaleFilter
 
         if preferences.iconFile != "":
             pygame.display.set_icon(pygame.image.load(preferences.iconFile))
