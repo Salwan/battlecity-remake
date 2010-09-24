@@ -44,8 +44,11 @@ Controls :	- Player 1: Cursor keys and Space/LCtrl to fire
 
 BattleCity Remake 1.0 (September 24, 2010)
 Major:
-- Battlecity now uses Psyco, the embedded JIT compiler for python
+- Battlecity now uses Psyco, an embedded JIT compiler, about 4x-100x more performance
+- Game preferences now is saved to a file and can be loaded by the game
+- Created a simple application using Tk/Tcl to modify game preferences
 - *Fixed* a glitch in carrying tank level across rounds
+- Modified the build process to exclude a few dlls
 Minor:
 - Code Optimizations to boost performance
 --------------------------------------------
