@@ -13,11 +13,11 @@ class Stone(battlecity.entities.tile.Tile):
         self.setPosition(at)
 
         # Determine if this is a base wall
-        aat = (at[0] / 2, at[1] / 2)
-        if at in EAGLE_ADJ:
-            self.eagleWall = True
-        else:
-            self.eagleWall = False
+#        aat = (at[0] / 2, at[1] / 2)
+#        if at in EAGLE_ADJ:
+#            self.eagleWall = True
+#        else:
+        self.eagleWall = False
 
     def update(self):
         pass
