@@ -7,16 +7,16 @@ Screen-shots
 
 Title screen
 
-![title-screen](https://dl.dropboxusercontent.com/u/29818268/screenshots/battlecityremake/1.jpg)
+![title-screen](http://zenithsal.com/assets/screenshots/battlecityremake/1.jpg)
 
 Two player battles
 
-![two-player](https://dl.dropboxusercontent.com/u/29818268/screenshots/battlecityremake/4.jpg)
+![two-player](http://zenithsal.com/assets/screenshots/battlecityremake/4.jpg)
 
 In-game level editor
 
-![ingame-editor](https://dl.dropboxusercontent.com/u/29818268/screenshots/battlecityremake/3.jpg)
+![ingame-editor](http://zenithsal.com/assets/screenshots/battlecityremake/3.jpg)
 
 Game architecture overview
 
-![game-arch](https://dl.dropboxusercontent.com/u/29818268/screenshots/battlecityremake/pyenkido.png)
+![game-arch](http://zenithsal.com/assets/screenshots/battlecityremake/pyenkido.png)
